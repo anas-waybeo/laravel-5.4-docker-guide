@@ -6,19 +6,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: canonpixma_laravel_app
+    container_name: michelintyre_laravel_app
     volumes:
       - ./projects:/var/www
-    ports:
-      - "9000:9000" # [Accessable ports by application] (Outside:Inside)
+    ports: 
+      - "9000:9000"
     networks:
       - laravel_app_network
 
   nginx:
     image: nginx:latest
-    container_name: canonpixma_nginx_server
+    container_name: michelintyre_nginx_server
     ports:
-      - "84:80" # [Accessable ports by application] (Outside:Inside)
+      - "84:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./projects:/var/www
@@ -26,39 +26,39 @@ services:
     networks:
       - laravel_app_network
 
-  mysql:
-    image: mysql:5.6
-    container_name: canonpixma_mysqldb_server
-    restart: always
+  mariadb:
+    image: mariadb:10.11.6
+    container_name: michelintyre_mariadb_server
     environment:
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: waybeo_canonpixma
-      MYSQL_USER: canonpixma_user
-      MYSQL_PASSWORD: canonpixma_password
+      MYSQL_DATABASE: waybeo_michelintyre
+      MYSQL_USER: michelintyre_user
+      MYSQL_PASSWORD: michelintyre_password
     ports:
       - "3309:3306"
     volumes:
-      - mysqldb_data:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
     networks:
       - laravel_app_network
 
   mongodb:
-    image: mongo:2.6
-    container_name: canonpixma_mongodb_server
+    image: mongo:latest
+    container_name: michelintyre_mongodb_server
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+      - MONGO_INITDB_ROOT_PASSWORD=root_password
     ports:
       - "27018:27017"
     volumes:
       - mongodb_data:/data/db
     networks:
       - laravel_app_network
+    command: mongod --auth
+    restart: unless-stopped
 
 volumes:
-  mysqldb_data:
+  mariadb_data:
   mongodb_data:
-
 
 networks:
   laravel_app_network:

@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  # PHP-FPM service for Laravel
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: thomascook_laravel_app
+    volumes:
+      - ./projects:/var/www
+    ports:
+      - "9000:9000" # [Accessable ports by application] (Outside:Inside)
+    networks:
+      - laravel_app_network
+
+  nginx:
+    image: nginx:latest
+    container_name: thomascook_nginx_server
+    ports:
+      - "84:80" # [Accessable ports by application] (Outside:Inside)
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./projects:/var/www
+      - ./nginx/logs:/var/log/nginx
+    networks:
+      - laravel_app_network
+
+  mysql:
+    image: mysql:5.6
+    container_name: thomascook_mysqldb_server
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: waybeo_thomascook
+      MYSQL_USER: thomascook_user
+      MYSQL_PASSWORD: thomascook_password
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysqldb_data:/var/lib/mysql
+    networks:
+      - laravel_app_network
+
+  mongodb:
+    image: mongo:2.6
+    container_name: thomascook_mongodb_server
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - laravel_app_network
+
+volumes:
+  mysqldb_data:
+  mongodb_data:
+
+
+networks:
+  laravel_app_network:
+    driver: bridge
