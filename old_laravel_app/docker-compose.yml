@@ -29,7 +29,6 @@ services:
   mysql:
     image: mysql:5.6
     container_name: thomascook_mysqldb_server
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: waybeo_thomascook
@@ -47,13 +46,15 @@ services:
     container_name: thomascook_mongodb_server
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+      - MONGO_INITDB_ROOT_PASSWORD=root_password
     ports:
       - "27018:27017"
     volumes:
       - mongodb_data:/data/db
     networks:
       - laravel_app_network
+    command: mongod
+    restart: unless-stopped
 
 volumes:
   mysqldb_data:
