@@ -31,6 +31,7 @@ The project uses some specific Composer packages that need to be installed.
 Run the following commands to install the required packages:
 
 ```bash
+composer update
 composer require bmatovu/laravel-xml
 composer require viewflex/zoap
 ```
