@@ -6,9 +6,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: michelintyre_laravel_app
+    container_name: michelintyre_laravel_app # @todo: update container name relate to the project name
     volumes:
-      - ./projects:/var/www
+      - ./projects:/var/www # @todo: make sure before : file/dir exist
     ports:
       - "9000:9000" # [Accessable ports by application] (Outside:Inside)
     networks:
@@ -16,41 +16,41 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: michelintyre_nginx_server
+    container_name: michelintyre_nginx_server # @todo: update container name relate to the project name
     ports:
       - "84:80" # [Accessable ports by application] (Outside:Inside)
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./projects:/var/www
-      - ./nginx/logs:/var/log/nginx
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf # @todo: make sure before : file/dir exist
+      - ./projects:/var/www # @todo: make sure before : file/dir exist
+      - ./nginx/logs:/var/log/nginx # @todo: make sure before : file/dir exist
     networks:
       - laravel_app_network
 
   mariadb:
     image: mariadb:10.11.6
-    container_name: michelintyre_mariadb_server
+    container_name: michelintyre_mariadb_server # @todo: update container name relate to the project name
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: waybeo_michelintyre
       MYSQL_USER: michelintyre_user
       MYSQL_PASSWORD: michelintyre_password
     ports:
-      - "3309:3306"
+      - "3309:3306" # [Accessable ports by application] (Outside:Inside)
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql # @todo: make sure before : file/dir exist
     networks:
       - laravel_app_network
 
   mongodb:
     image: mongo:latest
-    container_name: michelintyre_mongodb_server
+    container_name: michelintyre_mongodb_server # @todo: update container name relate to the project name
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root_password
     ports:
-      - "27018:27017"
+      - "27018:27017" # [Accessable ports by application] (Outside:Inside)
     volumes:
-      - mongodb_data:/data/db
+      - mongodb_data:/data/db # @todo: make sure before : file/dir exist
     networks:
       - laravel_app_network
     command: mongod

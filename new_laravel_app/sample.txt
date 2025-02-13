@@ -1,0 +1,14 @@
+TEMPLATE
+
+dirname: 
+projectname: 
+
+mysqldb: 
+user: 
+password: 
+
+mongodb: 
+user: 
+password: 
+----------------------------------------
+----------------------------------------

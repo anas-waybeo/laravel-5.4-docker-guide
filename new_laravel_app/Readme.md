@@ -1,50 +1,50 @@
-# Project Setup Guide
+# Laravel 10.10 Docker Setup Guide
 
-This guide explains how to set up the new laravel project Dockerfile without changing any source code.
+Follow these steps to set up a **Laravel 10.10** app with Docker.  
 
-## Prerequisites
+---
+
+### **1. Prerequisites**
 
 Before proceeding with the setup, ensure you have the following installed:
 
 - Docker
 - Docker Compose
 
-## Steps to Set Up the Project
-
-### 1. Clone the Repository
-
-If you haven't already, clone the project repository:
-
+### **2. Clone the Repository**
 ```bash
-git clone <repository_url>
-cd <project_directory>
+git clone <your-repository-url> laravel-docker
+cd laravel-docker
 ```
 
-### 2. Docker Setup
+---
 
-In this project, we are using a custom Dockerfile to set up the PHP environment. Follow these steps to set up the Docker container:
-
-### 3. Build the Docker Image
-
-After configuring the `Dockerfile` and Composer files, build the Docker container using the following command:
-
+### **3. Clone Laravel App Inside `projects` Directory**
 ```bash
-docker-compose build --no-cache
+cd projects
+git clone <laravel-app-repository-url> laravel-app
+/laravel-app
+composer update
 ```
 
-This will rebuild the Docker image, ensuring all required packages and configurations are applied.
+This will install the necessary dependencies defined in `composer.json`.
 
-### 4. Start the Docker Container
+---
 
-Once the build is complete, start the Docker container:
+### **4. Nginx Configuration (`nginx/default.conf`)**  
 
+Update needful changes on `nginx/default.conf` file.
+
+---
+
+### **5. Build and Start Docker Containers**
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
 
-This command will start the container in detached mode.
+---
 
-### 5. Verify the Setup
+### **6. Verify the Setup**
 
 To check if everything is working correctly, access the container logs:
 
@@ -56,8 +56,9 @@ Look for any errors. If there are no issues, your setup should be complete.
 
 ---
 
+### **7. Access Laravel App**
+After running the containers, open **http://localhost:84** in your browser.
+
 ### Conclusion
 
 Following these steps, you should have your Docker environment set up with the required dependencies without needing to modify the source code. If you encounter any issues, refer to the troubleshooting section above or reach out to the support team for assistance.
-
-### Happy coding :)...
